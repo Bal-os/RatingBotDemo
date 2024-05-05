@@ -1,43 +1,37 @@
 package os.balashov.ratingbot.infrastructure.sql.adapters;
 
+import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
-import org.springframework.stereotype.Service;
+import org.springframework.stereotype.Component;
 import os.balashov.ratingbot.core.common.logging.Loggable;
 import os.balashov.ratingbot.core.likesrating.application.events.SaveRatingEvent;
 import os.balashov.ratingbot.core.likesrating.application.events.SaveVoteEvent;
 import os.balashov.ratingbot.core.likesrating.application.listeners.SaveRatingEventListener;
-import os.balashov.ratingbot.core.likesrating.application.listeners.SaveVoteEvenListener;
+import os.balashov.ratingbot.core.likesrating.application.listeners.SaveVoteEventListener;
 import os.balashov.ratingbot.core.likesrating.ports.dtos.PostRating;
 import os.balashov.ratingbot.infrastructure.sql.entities.MessageKey;
 
-import java.util.LinkedList;
-import java.util.List;
+import java.util.Map;
 import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
-import java.util.stream.Collectors;
 
-@Service
-public class RatingVoteListener implements SaveRatingEventListener, SaveVoteEvenListener {
-    private final ConcurrentMap<MessageKey, PostRating> latestRating;
-    private final ConcurrentMap<MessageKey, List<SaveVoteEvent>> voteEvents;
+@Component
+@RequiredArgsConstructor
+public class RatingVoteListener implements SaveRatingEventListener, SaveVoteEventListener {
+    private final ConcurrentMap<MessageKey, PostRating> latestRatings = new ConcurrentHashMap<>();
+    private final ConcurrentMap<MessageKey, ConcurrentMap<Long, SaveVoteEvent>> voteEventsQueue = new ConcurrentHashMap<>();
     private final RatingSaver ratingSaver;
-
-    public RatingVoteListener(RatingSaver ratingSaver) {
-        this.ratingSaver = ratingSaver;
-        this.latestRating = new ConcurrentHashMap<>();
-        this.voteEvents = new ConcurrentHashMap<>();
-    }
 
     @Async
     @Override
     @EventListener
     public void handleSaveRatingEvent(SaveRatingEvent event) {
-        MessageKey key = new MessageKey(event.getMessageId(), event.getChatId());
+        MessageKey messageKey = new MessageKey(event.getMessageId(), event.getChatId());
         PostRating rating = event.getPostRating();
-        latestRating.put(key, rating);
-        saveVotesWithIfExists(key, rating);
+        latestRatings.put(messageKey, rating);
+        processVotesIfExist(messageKey);
     }
 
     @Async
@@ -45,23 +39,32 @@ public class RatingVoteListener implements SaveRatingEventListener, SaveVoteEven
     @EventListener
     public void handleSaveVoteEvent(SaveVoteEvent event) {
         MessageKey messageKey = new MessageKey(event.getMessageId(), event.getChatId());
-        voteEvents.computeIfAbsent(messageKey, key -> new LinkedList<>()).add(event);
-        latestRating.computeIfPresent(messageKey, this::saveVotesWithIfExists);
+        addVoteEventToQueue(messageKey, event);
+        if (latestRatings.containsKey(messageKey)) {
+            processVotesIfExist(messageKey);
+        }
     }
 
-    @Loggable(message = "EventListener: try to save votes with rating {2}, with previous check for votes existence")
-    private PostRating saveVotesWithIfExists(MessageKey key, PostRating rating) {
-        Optional.ofNullable(voteEvents.remove(key))
-                .filter(voteEventsList -> !voteEventsList.isEmpty())
-                .ifPresent(voteEventsList -> saveData(key, rating, voteEventsList));
-        return null;
+    @Loggable(message = "EventListener: add vote event {1} to queue")
+    private void addVoteEventToQueue(MessageKey messageKey, SaveVoteEvent event) {
+        voteEventsQueue.computeIfAbsent(messageKey, key -> new ConcurrentHashMap<>())
+                .compute(event.getUserId(), (userId, oldEvent) -> getLatestEvent(oldEvent, event));
+    }
+
+
+    @Loggable(message = "EventListener: process votes for message {1}, if exist")
+    private void processVotesIfExist(MessageKey messageKey) {
+        Optional.ofNullable(voteEventsQueue.remove(messageKey))
+                .filter(voteEvents -> !voteEvents.isEmpty())
+                .ifPresent(voteEvents -> saveVotesData(messageKey, latestRatings.remove(messageKey), voteEvents));
     }
 
     @Loggable(message = "EventListener: save votes with rating {2}")
-    private void saveData(MessageKey key, PostRating rating, List<SaveVoteEvent> voteEventsList) {
-        var votesPerUserCollector = Collectors.groupingBy(SaveVoteEvent::getUserId, Collectors.mapping(SaveVoteEvent::getVote, Collectors.toSet()));
-        voteEventsList.stream()
-                .collect(votesPerUserCollector)
-                .forEach((user, votes) -> ratingSaver.saveRating(key, rating, user, votes.stream().toList()));
+    private void saveVotesData(MessageKey key, PostRating rating, Map<Long, SaveVoteEvent> voteEventsList) {
+        voteEventsList.forEach((userId, votes) -> ratingSaver.saveRating(key, rating, userId, votes.getVote()));
+    }
+
+    private SaveVoteEvent getLatestEvent(SaveVoteEvent oldEvent, SaveVoteEvent newEvent) {
+        return oldEvent == null || oldEvent.getTimestamp() < newEvent.getTimestamp() ? newEvent : oldEvent;
     }
 }

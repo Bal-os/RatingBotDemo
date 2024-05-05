@@ -6,10 +6,8 @@ import os.balashov.ratingbot.core.likesrating.ports.dtos.Marks;
 import os.balashov.ratingbot.core.likesrating.ports.dtos.PostRating;
 import os.balashov.ratingbot.infrastructure.sql.entities.MessageKey;
 
-import java.util.List;
-
 public interface RatingSaver {
     @Transactional
     @Loggable(message = "SqlAdapter: Save rating {2}, associated with user {3}")
-    void saveRating(MessageKey key, PostRating rating, Long userId, List<Marks> votes);
+    void saveRating(MessageKey key, PostRating rating, Long userId, Marks vote);
 }

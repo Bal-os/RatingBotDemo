@@ -5,7 +5,7 @@ import org.springframework.scheduling.annotation.Async;
 import os.balashov.ratingbot.core.common.logging.Loggable;
 import os.balashov.ratingbot.core.likesrating.application.events.SaveVoteEvent;
 
-public interface SaveVoteEvenListener {
+public interface SaveVoteEventListener {
     @Async
     @EventListener
     @Loggable(message = "EventListener: Save vote event {1}, handling...")

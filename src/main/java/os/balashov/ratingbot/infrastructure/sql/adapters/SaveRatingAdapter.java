@@ -1,9 +1,9 @@
 package os.balashov.ratingbot.infrastructure.sql.adapters;
 
 import jakarta.transaction.Transactional;
-import lombok.AllArgsConstructor;
-import org.jetbrains.annotations.NotNull;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import os.balashov.ratingbot.core.common.logging.Loggable;
 import os.balashov.ratingbot.core.likesrating.ports.dtos.Marks;
 import os.balashov.ratingbot.core.likesrating.ports.dtos.PostRating;
 import os.balashov.ratingbot.infrastructure.sql.entities.MessageKey;
@@ -15,10 +15,9 @@ import os.balashov.ratingbot.infrastructure.sql.repositories.SqlUserRepository;
 import os.balashov.ratingbot.infrastructure.sql.repositories.SqlVoteRepository;
 
 import java.util.LinkedList;
-import java.util.List;
 
 @Service
-@AllArgsConstructor
+@RequiredArgsConstructor
 public class SaveRatingAdapter implements RatingSaver {
     private final SqlRatingRepository sqlRatingRepository;
     private final SqlUserRepository sqlUserRepository;
@@ -27,21 +26,42 @@ public class SaveRatingAdapter implements RatingSaver {
 
     @Override
     @Transactional
-    public void saveRating(MessageKey key, PostRating rating, Long userId, List<Marks> votes) {
-        var userEntity = sqlUserRepository.findById(userId)
-                .orElse(getNewUserEntity(userId));
-
-        var ratingEntity = sqlRatingRepository.findById(key)
-                .orElse(ratingMapper.toRatingEntity(key, rating));
-
-        var votesEntity = votes.stream()
-                .map(mark -> createUserVote(mark, userEntity, ratingEntity))
-                .toList();
-
-        sqlVoteRepository.saveAllAndFlush(votesEntity);
+    public void saveRating(MessageKey key, PostRating rating, Long userId, Marks vote) {
+        RatingEntity ratingEntity = findOrCreateRatingEntityWithNewRating(key, rating);
+        UserVote votesEntity = sqlVoteRepository.findByUserIdAndMessageKey(key.getMessageId(), key.getChatId(), userId)
+                .map(userVote -> updateUserVote(userVote, ratingEntity, vote))
+                .orElseGet(() -> createUserVote(vote, findOrCreateUser(userId), ratingEntity));
+        sqlVoteRepository.save(votesEntity);
     }
 
-    @NotNull
+    @Loggable(message = "SqlAdapter: find or create user with id {1}")
+    private UserEntity findOrCreateUser(Long userId) {
+        return sqlUserRepository.findById(userId).orElseGet(() -> createUserEntity(userId));
+    }
+
+    @Loggable(message = "SqlAdapter: find or create rating entity with key {1} and rating {2}")
+    private RatingEntity findOrCreateRatingEntityWithNewRating(MessageKey key, PostRating rating) {
+        return sqlRatingRepository.findById(key)
+                .map(ratingEntity -> updateRating(ratingEntity, rating))
+                .orElseGet(() -> ratingMapper.toRatingEntity(key, rating));
+    }
+
+    @Loggable(message = "SqlAdapter: update rating entity {1} with rating {2}")
+    private RatingEntity updateRating(RatingEntity ratingEntity, PostRating rating) {
+        ratingEntity.setDislikes(rating.dislikes());
+        ratingEntity.setRating(rating.rating());
+        ratingEntity.setLikes(rating.likes());
+        return ratingEntity;
+    }
+
+    @Loggable(message = "SqlAdapter: update user vote {1} with rating entity {2} and vote {3}")
+    private UserVote updateUserVote(UserVote userVote, RatingEntity ratingEntity, Marks vote) {
+        userVote.setRatingEntity(ratingEntity);
+        userVote.setVote(vote);
+        return userVote;
+    }
+
+    @Loggable(message = "SqlAdapter: create user vote with vote {1}, user {2} and rating {3}")
     private UserVote createUserVote(Marks mark, UserEntity userEntity, RatingEntity ratingEntity) {
         return UserVote.builder()
                 .vote(mark)
@@ -50,11 +70,12 @@ public class SaveRatingAdapter implements RatingSaver {
                 .build();
     }
 
-    @NotNull
-    private UserEntity getNewUserEntity(Long userId) {
+    @Loggable(message = "SqlAdapter: create new user with id {1}")
+    private UserEntity createUserEntity(Long userId) {
         return UserEntity.builder()
                 .userId(userId)
                 .votes(new LinkedList<>())
                 .build();
     }
 }
+

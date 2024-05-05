@@ -9,8 +9,8 @@ import org.springframework.stereotype.Component;
 import java.util.concurrent.ExecutorService;
 
 @Slf4j
-@Aspect
-@Component
+//@Aspect
+//@Component
 public class RepositoryLoggingAspect {
     private final ExecutorService executorService;
 
