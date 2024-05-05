@@ -21,6 +21,21 @@ import java.util.concurrent.ScheduledExecutorService;
 
 @Configuration
 public class TelegramLibraryConfiguration {
+    @NotNull
+    private static SpringLongPollingBot getSpringLongPollingBot(LongPollingUpdateConsumer updateConsumer, BotConfiguration botConfiguration) {
+        return new SpringLongPollingBot() {
+            @Override
+            public String getBotToken() {
+                return botConfiguration.getBotToken();
+            }
+
+            @Override
+            public LongPollingUpdateConsumer getUpdatesConsumer() {
+                return updateConsumer;
+            }
+        };
+    }
+
     @Bean
     public UpdateHandlersConsumer updateHandlersConsumer(List<UpdateHandler> handlers,
                                                          ExecutorService executorService) {
@@ -54,21 +69,6 @@ public class TelegramLibraryConfiguration {
     }
 
     @NotNull
-    private static SpringLongPollingBot getSpringLongPollingBot(LongPollingUpdateConsumer updateConsumer, BotConfiguration botConfiguration) {
-        return new SpringLongPollingBot() {
-            @Override
-            public String getBotToken() {
-                return botConfiguration.getBotToken();
-            }
-
-            @Override
-            public LongPollingUpdateConsumer getUpdatesConsumer() {
-                return updateConsumer;
-            }
-        };
-    }
-
-    @NotNull
     private TelegramOkHttpClientFactory.DefaultOkHttpClientCreator clientCreator(Dispatcher dispatcher) {
         return new TelegramOkHttpClientFactory.DefaultOkHttpClientCreator() {
             @Override
@@ -77,6 +77,6 @@ public class TelegramLibraryConfiguration {
             }
         };
     }
-    
-    
+
+
 }

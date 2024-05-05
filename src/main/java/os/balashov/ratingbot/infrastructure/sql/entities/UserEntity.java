@@ -34,4 +34,5 @@ public class UserEntity {
 
     @JoinColumn(name = "organizer_id")
     @ManyToOne(fetch = FetchType.LAZY)
-    private Organizers organizers;}
+    private Organizers organizers;
+}

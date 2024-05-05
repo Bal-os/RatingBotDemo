@@ -1,6 +1,5 @@
 package os.balashov.ratingbot.infrastructure.sql.adapters;
 
-import lombok.RequiredArgsConstructor;
 import org.springframework.context.event.EventListener;
 import org.springframework.scheduling.annotation.Async;
 import org.springframework.stereotype.Service;
@@ -12,7 +11,9 @@ import os.balashov.ratingbot.core.likesrating.application.listeners.SaveVoteEven
 import os.balashov.ratingbot.core.likesrating.ports.dtos.PostRating;
 import os.balashov.ratingbot.infrastructure.sql.entities.MessageKey;
 
-import java.util.*;
+import java.util.LinkedList;
+import java.util.List;
+import java.util.Optional;
 import java.util.concurrent.ConcurrentHashMap;
 import java.util.concurrent.ConcurrentMap;
 import java.util.stream.Collectors;

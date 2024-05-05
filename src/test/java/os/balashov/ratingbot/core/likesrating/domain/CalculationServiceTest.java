@@ -7,9 +7,9 @@ import os.balashov.ratingbot.core.likesrating.domain.calculators.inclinations.Ta
 import os.balashov.ratingbot.core.likesrating.domain.calculators.ratings.InclinedRatingCalculator;
 import os.balashov.ratingbot.core.likesrating.domain.calculators.ratings.TangentsInclinedRatingCalculator;
 import os.balashov.ratingbot.core.likesrating.domain.factories.RatingStrategyFactoryImpl;
+import os.balashov.ratingbot.core.likesrating.domain.ports.RatingStrategy;
 import os.balashov.ratingbot.core.likesrating.domain.ports.entities.RatingParameters;
 import os.balashov.ratingbot.core.likesrating.domain.services.CalculationService;
-import os.balashov.ratingbot.core.likesrating.domain.ports.RatingStrategy;
 
 import static org.junit.jupiter.api.Assertions.assertEquals;
 import static org.mockito.Mockito.when;

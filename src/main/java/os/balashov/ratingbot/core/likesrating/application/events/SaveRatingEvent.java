@@ -11,6 +11,7 @@ public class SaveRatingEvent extends ApplicationEvent {
     private final int messageId;
     private final long chatId;
     private final PostRating postRating;
+
     public SaveRatingEvent(Object source, int messageId, long chatId, PostRating postRating) {
         super(source);
         this.messageId = messageId;

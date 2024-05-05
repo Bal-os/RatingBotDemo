@@ -1,23 +1,13 @@
 package os.balashov.ratingbot.infrastructure.telegram.config;
 
-import jakarta.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.telegram.telegrambots.longpolling.interfaces.LongPollingUpdateConsumer;
-import org.telegram.telegrambots.meta.api.objects.Update;
 import os.balashov.ratingbot.core.likesrating.ports.ChatMemberCounter;
-import os.balashov.ratingbot.core.likesrating.ports.dtos.Marks;
 import os.balashov.ratingbot.infrastructure.telegram.TelegramMemberStatuses;
 import os.balashov.ratingbot.infrastructure.telegram.api.BotExecutor;
-import os.balashov.ratingbot.infrastructure.telegram.hendlers.UpdateHandler;
 import os.balashov.ratingbot.infrastructure.telegram.services.CheckAdminRole;
 import os.balashov.ratingbot.infrastructure.telegram.services.CheckChatMember;
-
-import java.util.HashSet;
-import java.util.List;
-import java.util.concurrent.ExecutorService;
-import java.util.stream.Collectors;
 
 @Configuration
 public class TelegramBotAdaptersFactory {

@@ -5,11 +5,11 @@ import os.balashov.ratingbot.core.likesrating.domain.calculators.inclinations.Ex
 import os.balashov.ratingbot.core.likesrating.domain.calculators.inclinations.InclinationCalculator;
 import os.balashov.ratingbot.core.likesrating.domain.calculators.ratings.InclinedRatingCalculator;
 import os.balashov.ratingbot.core.likesrating.domain.calculators.ratings.TangentsInclinedRatingCalculator;
-import os.balashov.ratingbot.core.likesrating.domain.ports.RatingStrategyFactory;
 import os.balashov.ratingbot.core.likesrating.domain.factories.RatingStrategyFactoryImpl;
+import os.balashov.ratingbot.core.likesrating.domain.ports.RatingStrategy;
+import os.balashov.ratingbot.core.likesrating.domain.ports.RatingStrategyFactory;
 import os.balashov.ratingbot.core.likesrating.domain.ports.entities.RatingParameters;
 import os.balashov.ratingbot.core.likesrating.domain.strategies.InclinedParameterizedRatingStrategy;
-import os.balashov.ratingbot.core.likesrating.domain.ports.RatingStrategy;
 
 import static org.junit.jupiter.api.Assertions.assertTrue;
 
