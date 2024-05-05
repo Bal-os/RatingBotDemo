@@ -5,12 +5,14 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.message.Message;
 import os.balashov.ratingbot.infrastructure.telegram.api.BotExecutor;
+import os.balashov.ratingbot.infrastructure.telegram.services.TextEditor;
 
 @Slf4j
 @Component
 @AllArgsConstructor
-public class TelegramPostHandler implements PostHandler {  // TODO: refactor this class
+public class TelegramPostHandler implements PostHandler {
     private final BotExecutor botExecutor;
+    private final TextEditor textEditor;
 
     @Override
     public void handlePost(Message message) {
@@ -23,17 +25,7 @@ public class TelegramPostHandler implements PostHandler {  // TODO: refactor thi
         String text = message.getText();
         log.info("Telegram handler: message {} received, from chatId: {}, messageId: {}", text, chatId, messageId);
 
-        String updatedText = updateMessage(text); // should using external service
+        String updatedText = textEditor.updateMessage(text);
         botExecutor.editMessage(chatId, messageId, updatedText);
-    }
-
-    private String updateMessage(String text) { // should be without constants
-        if (text.contains("Оцінка:") || text.contains("Оцінка: [1-9]*\\.?[0-9]+\\/10")) {
-            log.info("Telegram handler: Message already updated: {}", text);
-        } else {
-            log.info("Telegram handler: Message updated: {}", text + " Оцінка: 5/10");
-            text = text + "\n\nОцінка: 5/10";
-        }
-        return text;
     }
 }

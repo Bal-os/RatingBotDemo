@@ -10,6 +10,7 @@ import os.balashov.ratingbot.core.likesrating.ports.ProcessVoteAndUpdate;
 import os.balashov.ratingbot.core.likesrating.ports.dtos.Marks;
 import os.balashov.ratingbot.infrastructure.telegram.api.BotExecutor;
 import os.balashov.ratingbot.infrastructure.telegram.services.CheckChatMember;
+import os.balashov.ratingbot.infrastructure.telegram.services.TextEditor;
 
 @Slf4j
 @Component
@@ -19,24 +20,26 @@ public class TelegramCallbackHandler implements CallbackHandler {
     private final CheckChatMember checkChatMember;
     private final ProcessVoteAndUpdate processVoteAndUpdate;
     private final CheckUserVote checkUserVote;
+    private final TextEditor textEditor;
 
     @Override
     public void handleCallback(CallbackQuery callbackQuery) {
         long chatId = callbackQuery.getMessage().getChatId();
         long userId = callbackQuery.getFrom().getId();
         int messageId = callbackQuery.getMessage().getMessageId();
+        var callbackQueryId = callbackQuery.getId();
 
         var vote = Marks.from(callbackQuery.getData());
 
         if (!checkChatMember.isChatMember(chatId, userId)) {
             log.info("Telegram handler: user {} is not a member of the chat {} but tried to vote", userId, chatId);
-            botExecutor.sendPersonalMessage(chatId, userId, "You must be a member of the chat to vote.");
+            botExecutor.sendPersonalMessage(chatId, userId, callbackQueryId, "You must be a member of the chat to vote.");
             return;
         }
         if (checkUserVote.isUserVoted(messageId, chatId, userId)
                 && checkUserVote.isVoteNotChanged(messageId, chatId, userId, vote)) {
             log.info("Telegram handler: user {} has already voted for message {}", userId, messageId);
-            botExecutor.sendPersonalMessage(chatId, userId, "You have already voted.");
+            botExecutor.sendPersonalMessage(chatId, userId, callbackQueryId, "You have already voted.");
             return;
         }
 
@@ -44,16 +47,17 @@ public class TelegramCallbackHandler implements CallbackHandler {
         double rating = processVoteAndUpdate.processVoteAndUpdate(messageId, chatId, userId, vote);
         var message = (Message) callbackQuery.getMessage();
         var text = message.getText();
-        var updatedText = updateMessage(text, rating);
+        var updatedText = textEditor.updateMessage(text, rating);
+
+        if (text.equals(updatedText)) {
+            log.info("Telegram handler: user {} has already voted for message {}", userId, messageId);
+            botExecutor.sendPersonalMessage(chatId, userId, callbackQueryId, "You have already voted.");
+            return;
+        }
 
         log.info("Telegram handler: message {} should be changed with text {}", messageId, updatedText);
         botExecutor.editMessage(chatId, messageId, updatedText);
-        botExecutor.sendPersonalMessage(chatId, userId, "Thank you for your vote!");
-    }
-
-    private String updateMessage(String text, double rating) { // should using external service
-        var updateString = String.format("Оцінка: %s/10", rating);
-        return text.replaceAll("Оцінка: [1-9]*\\.?[0-9]+/10", updateString);
+        botExecutor.sendPersonalMessage(chatId, userId, callbackQueryId, "Thank you for your vote!");
     }
 }
 

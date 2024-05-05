@@ -7,7 +7,6 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.scheduling.annotation.EnableAsync;
 
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
@@ -17,7 +16,6 @@ import java.util.function.Function;
 
 @Slf4j
 @Getter
-@EnableAsync
 @Configuration
 @RequiredArgsConstructor
 public class MultiThreadingConfig {
@@ -27,7 +25,7 @@ public class MultiThreadingConfig {
     private int virtualPoolSize;
 
     @PostConstruct
-    public void init() {
+    private void init() {
         log.info("Virtual multithreading is {}", useVirtualMultithreading ? "enabled" : "disabled");
     }
 
@@ -38,20 +36,22 @@ public class MultiThreadingConfig {
     }
 
     @Bean
-    public Function<ThreadFactory, ExecutorService> executorServiceHandler() {
-        return useVirtualMultithreading ? Executors::newThreadPerTaskExecutor : Executors::newCachedThreadPool;
-    }
-
-    @Bean
-    public ExecutorService executorService(ThreadFactory threadFactory,
-                                           Function<ThreadFactory, ExecutorService> executorServiceHandler) {
-        return executorServiceHandler.apply(threadFactory);
+    public ExecutorService executorService(ThreadFactory threadFactory) {
+        return executorServiceHandler().apply(threadFactory);
     }
 
     @Bean
     public ScheduledExecutorService scheduledExecutorService(ThreadFactory threadFactory) {
-        int availableProcessors = Runtime.getRuntime().availableProcessors();
-        int poolSize = useVirtualMultithreading ? availableProcessors : Math.max(virtualPoolSize, availableProcessors);
+        int poolSize = poolSizeHandler();
         return Executors.newScheduledThreadPool(poolSize, threadFactory);
+    }
+
+    private Function<ThreadFactory, ExecutorService> executorServiceHandler() {
+        return useVirtualMultithreading ? Executors::newThreadPerTaskExecutor : Executors::newCachedThreadPool;
+    }
+
+    private int poolSizeHandler() {
+        int availableProcessors = Runtime.getRuntime().availableProcessors();
+        return useVirtualMultithreading ? availableProcessors : Math.max(virtualPoolSize, availableProcessors);
     }
 }

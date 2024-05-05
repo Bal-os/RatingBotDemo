@@ -22,17 +22,15 @@ repositories {
 }
 
 dependencies {
-    implementation 'org.springframework.boot:spring-boot-starter-actuator'
+    implementation 'org.telegram:telegrambots-springboot-longpolling-starter:7.2.1'
+    implementation 'org.telegram:telegrambots-client:7.2.1'
+    implementation 'org.springframework.boot:spring-boot-starter-aop'
     implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
-    implementation 'org.springframework.boot:spring-boot-starter-data-mongodb'
+    implementation 'org.springframework.boot:spring-boot-starter-actuator'
     implementation 'org.springframework.boot:spring-boot-starter-validation'
-    implementation 'org.apache.commons:commons-math3:3.6.1'
-    implementation 'org.telegram:telegrambots-spring-boot-starter:6.9.7.1'
-    implementation 'org.telegram:telegrambots-abilities:7.2.0'
-    implementation 'org.flywaydb:flyway-core'
-    implementation 'org.springframework.cloud:spring-cloud-starter-openfeign'
     compileOnly 'org.projectlombok:lombok'
     runtimeOnly 'org.postgresql:postgresql'
+    runtimeOnly 'org.aspectj:aspectjweaver:1.9.22'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }

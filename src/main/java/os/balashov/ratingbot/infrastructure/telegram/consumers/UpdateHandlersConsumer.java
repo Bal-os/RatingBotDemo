@@ -5,6 +5,7 @@ import org.telegram.telegrambots.longpolling.interfaces.LongPollingUpdateConsume
 import org.telegram.telegrambots.meta.api.objects.Update;
 import os.balashov.ratingbot.infrastructure.telegram.hendlers.UpdateHandler;
 
+import java.util.HashSet;
 import java.util.List;
 import java.util.concurrent.ExecutorService;
 
@@ -15,7 +16,7 @@ public class UpdateHandlersConsumer implements LongPollingUpdateConsumer {
 
     @Override
     public void consume(List<Update> updates) {
-        updates.forEach(update -> executor.execute(() -> consume(update)));
+        new HashSet<>(updates).forEach(update -> executor.submit(() -> consume(update)));
     }
 
     public void consume(Update update) {

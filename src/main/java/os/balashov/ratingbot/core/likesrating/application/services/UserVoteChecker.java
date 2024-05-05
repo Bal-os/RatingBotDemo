@@ -3,13 +3,14 @@ package os.balashov.ratingbot.core.likesrating.application.services;
 import lombok.AllArgsConstructor;
 import org.springframework.cache.annotation.Caching;
 import org.springframework.stereotype.Component;
+import org.springframework.stereotype.Service;
 import os.balashov.ratingbot.core.likesrating.application.repositories.GetVoteRepository;
 import os.balashov.ratingbot.core.likesrating.ports.CheckUserVote;
 import os.balashov.ratingbot.core.likesrating.ports.dtos.Marks;
 
 import java.util.Optional;
 
-@Component
+@Service
 @AllArgsConstructor
 public class UserVoteChecker implements CheckUserVote {
     private final GetVoteRepository getVoteRepository;

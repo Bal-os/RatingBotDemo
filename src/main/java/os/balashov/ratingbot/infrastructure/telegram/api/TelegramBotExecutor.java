@@ -3,9 +3,9 @@ package os.balashov.ratingbot.infrastructure.telegram.api;
 import lombok.AllArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
+import org.telegram.telegrambots.meta.api.methods.AnswerCallbackQuery;
 import org.telegram.telegrambots.meta.api.methods.groupadministration.GetChatMember;
 import org.telegram.telegrambots.meta.api.methods.groupadministration.GetChatMemberCount;
-import org.telegram.telegrambots.meta.api.methods.send.SendMessage;
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.meta.generics.TelegramClient;
@@ -19,17 +19,14 @@ public class TelegramBotExecutor implements BotExecutor, KeyboardChanger {
     private final TelegramClient telegramClient;
 
     @Override
-    public void sendPersonalMessage(long chatId, long userId, String text) { // TODO: refactor to send correct message
-        SendMessage message = SendMessage.builder()
-                .replyMarkup(getKeyboardLikeButtons())
-                .chatId(String.valueOf(chatId))
-                .text(text)
-                .build();
-//        try {
-//            telegramClient.execute(message);
-//        } catch (TelegramApiException e) {
-//            log.error("Error while sending message", e);
-//        }
+    public void sendPersonalMessage(long chatId, long userId, String callbackQueryId, String text) {
+        AnswerCallbackQuery answerCallbackQuery = new AnswerCallbackQuery(callbackQueryId);
+        answerCallbackQuery.setText(text);
+        try {
+            telegramClient.execute(answerCallbackQuery);
+        } catch (TelegramApiException e) {
+            log.error("Error while sending message", e);
+        }
     }
 
     @Override

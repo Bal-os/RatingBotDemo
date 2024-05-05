@@ -6,7 +6,7 @@ import java.util.Optional;
 
 public interface BotExecutor {
     @Loggable(message = "Telegram client executor: Send message to chat {1}")
-    void sendPersonalMessage(long chatId, long userId, String text);
+    void sendPersonalMessage(long chatId, long userId, String callbackQueryId, String text);
 
     @Loggable(message = "Telegram client executor: Get user {2} status in chat {1}")
     Optional<String> getMemberStatus(long chatId, long userId);

@@ -7,7 +7,7 @@ import os.balashov.ratingbot.core.likesrating.application.usecases.SaveUserVote;
 import os.balashov.ratingbot.core.likesrating.ports.CreatePostRating;
 import os.balashov.ratingbot.core.likesrating.application.usecases.FindPostRating;
 import os.balashov.ratingbot.core.likesrating.application.usecases.SavePostRating;
-import os.balashov.ratingbot.core.likesrating.likesrating.ports.CalculateRating;
+import os.balashov.ratingbot.core.likesrating.domain.ports.CalculateRating;
 import os.balashov.ratingbot.core.likesrating.application.usecases.ChangePostRating;
 import os.balashov.ratingbot.core.likesrating.ports.ChatMemberCounter;
 import os.balashov.ratingbot.core.likesrating.ports.CheckUserVote;

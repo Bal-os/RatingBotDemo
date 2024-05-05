@@ -3,14 +3,14 @@ package os.balashov.ratingbot.core.likesrating.application.config;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import os.balashov.ratingbot.core.likesrating.likesrating.calculators.inclinations.ExponentialInclinationCalculator;
-import os.balashov.ratingbot.core.likesrating.likesrating.calculators.inclinations.InclinationCalculator;
-import os.balashov.ratingbot.core.likesrating.likesrating.calculators.ratings.InclinedRatingCalculator;
-import os.balashov.ratingbot.core.likesrating.likesrating.calculators.ratings.TangentsInclinedRatingCalculator;
-import os.balashov.ratingbot.core.likesrating.likesrating.factories.RatingStrategyFactoryImpl;
-import os.balashov.ratingbot.core.likesrating.likesrating.ports.RatingStrategy;
-import os.balashov.ratingbot.core.likesrating.likesrating.ports.entities.RatingParameters;
-import os.balashov.ratingbot.core.likesrating.likesrating.services.CalculationService;
+import os.balashov.ratingbot.core.likesrating.domain.calculators.inclinations.ExponentialInclinationCalculator;
+import os.balashov.ratingbot.core.likesrating.domain.calculators.inclinations.InclinationCalculator;
+import os.balashov.ratingbot.core.likesrating.domain.calculators.ratings.InclinedRatingCalculator;
+import os.balashov.ratingbot.core.likesrating.domain.calculators.ratings.TangentsInclinedRatingCalculator;
+import os.balashov.ratingbot.core.likesrating.domain.factories.RatingStrategyFactoryImpl;
+import os.balashov.ratingbot.core.likesrating.domain.ports.RatingStrategy;
+import os.balashov.ratingbot.core.likesrating.domain.ports.entities.RatingParameters;
+import os.balashov.ratingbot.core.likesrating.domain.services.CalculationService;
 
 @Configuration
 public class DomainConfiguration {

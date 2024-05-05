@@ -1,7 +1,10 @@
 package os.balashov.ratingbot.core.likesrating.ports.dtos;
 
+import lombok.EqualsAndHashCode;
+
 import java.util.concurrent.atomic.AtomicInteger;
 
+@EqualsAndHashCode
 public class PostRating {
     private final AtomicInteger likes;
     private final AtomicInteger dislikes;
