@@ -37,7 +37,7 @@ public class CalculationServiceTest {
         RatingStrategy strategy = factory.createInclinedParameterizedRatingStrategy(inclinationRatingCalculator, inclinationCalculator, parameters);
 
         CalculationService service = new CalculationService(strategy);
-        double result = service.calculateRating(0, 2, 2);
+        double result = service.calculateRating(50, 50, 200);
 
         assertEquals(50.0, result, 1.5);
     }
