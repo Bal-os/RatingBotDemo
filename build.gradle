@@ -30,7 +30,8 @@ dependencies {
     implementation 'org.springframework.boot:spring-boot-starter-validation'
     compileOnly 'org.projectlombok:lombok'
     runtimeOnly 'org.postgresql:postgresql'
-    runtimeOnly 'org.aspectj:aspectjweaver:1.9.22'
+    runtimeOnly 'org.aspectj:aspectjweaver:1.9.7'
+    runtimeOnly 'com.microsoft.sqlserver:mssql-jdbc_auth:9.4.0.x64'
     annotationProcessor 'org.projectlombok:lombok'
     testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }

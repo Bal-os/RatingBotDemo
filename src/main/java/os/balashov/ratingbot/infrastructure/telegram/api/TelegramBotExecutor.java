@@ -9,6 +9,8 @@ import org.telegram.telegrambots.meta.api.methods.groupadministration.GetChatMem
 import org.telegram.telegrambots.meta.api.methods.updatingmessages.EditMessageText;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
 import org.telegram.telegrambots.meta.generics.TelegramClient;
+import os.balashov.ratingbot.infrastructure.telegram.usecases.BotExecutor;
+import os.balashov.ratingbot.infrastructure.telegram.usecases.KeyboardChanger;
 
 import java.util.Optional;
 

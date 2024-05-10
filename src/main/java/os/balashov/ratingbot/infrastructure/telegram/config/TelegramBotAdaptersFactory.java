@@ -3,11 +3,12 @@ package os.balashov.ratingbot.infrastructure.telegram.config;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import os.balashov.ratingbot.core.likesrating.ports.ChatMemberCounter;
-import os.balashov.ratingbot.infrastructure.telegram.TelegramMemberStatuses;
-import os.balashov.ratingbot.infrastructure.telegram.api.BotExecutor;
-import os.balashov.ratingbot.infrastructure.telegram.services.CheckAdminRole;
-import os.balashov.ratingbot.infrastructure.telegram.services.CheckChatMember;
+import os.balashov.ratingbot.core.common.ports.ChatMemberCounter;
+import os.balashov.ratingbot.infrastructure.telegram.entites.TelegramMemberStatuses;
+import os.balashov.ratingbot.infrastructure.telegram.usecases.BotExecutor;
+import os.balashov.ratingbot.infrastructure.telegram.usecases.BotConfiguration;
+import os.balashov.ratingbot.infrastructure.telegram.usecases.CheckAdminRole;
+import os.balashov.ratingbot.infrastructure.telegram.usecases.CheckChatMember;
 
 @Configuration
 public class TelegramBotAdaptersFactory {

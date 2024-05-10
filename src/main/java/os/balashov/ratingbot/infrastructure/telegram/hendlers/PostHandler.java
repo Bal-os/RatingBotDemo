@@ -2,7 +2,7 @@ package os.balashov.ratingbot.infrastructure.telegram.hendlers;
 
 import org.telegram.telegrambots.meta.api.objects.Update;
 import org.telegram.telegrambots.meta.api.objects.message.Message;
-import os.balashov.ratingbot.core.common.logging.Loggable;
+import os.balashov.ratingbot.core.common.application.logging.Loggable;
 
 public interface PostHandler extends UpdateHandler {
     @Override

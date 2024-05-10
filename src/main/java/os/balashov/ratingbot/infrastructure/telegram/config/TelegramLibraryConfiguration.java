@@ -12,8 +12,9 @@ import org.telegram.telegrambots.longpolling.interfaces.LongPollingUpdateConsume
 import org.telegram.telegrambots.longpolling.starter.SpringLongPollingBot;
 import org.telegram.telegrambots.longpolling.util.TelegramOkHttpClientFactory;
 import org.telegram.telegrambots.meta.generics.TelegramClient;
-import os.balashov.ratingbot.infrastructure.telegram.consumers.UpdateHandlersConsumer;
+import os.balashov.ratingbot.infrastructure.telegram.services.UpdateHandlersConsumer;
 import os.balashov.ratingbot.infrastructure.telegram.hendlers.UpdateHandler;
+import os.balashov.ratingbot.infrastructure.telegram.usecases.BotConfiguration;
 
 import java.util.List;
 import java.util.concurrent.ExecutorService;

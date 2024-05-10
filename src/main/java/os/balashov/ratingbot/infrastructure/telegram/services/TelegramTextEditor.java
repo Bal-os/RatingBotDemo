@@ -2,6 +2,7 @@ package os.balashov.ratingbot.infrastructure.telegram.services;
 
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
+import os.balashov.ratingbot.infrastructure.telegram.usecases.TextEditor;
 
 @Slf4j
 @Service

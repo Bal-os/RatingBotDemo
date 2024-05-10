@@ -6,11 +6,11 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.telegram.telegrambots.meta.exceptions.TelegramApiException;
-import os.balashov.ratingbot.core.likesrating.ports.ChatMemberCounter;
-import os.balashov.ratingbot.infrastructure.telegram.api.BotExecutor;
+import os.balashov.ratingbot.core.common.ports.ChatMemberCounter;
+import os.balashov.ratingbot.infrastructure.telegram.usecases.BotExecutor;
 import os.balashov.ratingbot.infrastructure.telegram.config.TelegramBotAdaptersFactory;
-import os.balashov.ratingbot.infrastructure.telegram.services.CheckAdminRole;
-import os.balashov.ratingbot.infrastructure.telegram.services.CheckChatMember;
+import os.balashov.ratingbot.infrastructure.telegram.usecases.CheckAdminRole;
+import os.balashov.ratingbot.infrastructure.telegram.usecases.CheckChatMember;
 
 import java.util.Optional;
 
