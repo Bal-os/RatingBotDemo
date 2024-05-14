@@ -1,0 +1,34 @@
+trigger:
+- deploy
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+- script: |
+    wget https://download.java.net/java/GA/jdk21/13/GPL/openjdk-21_linux-x64_bin.tar.gz
+    sudo tar xvf openjdk-21_linux-x64_bin.tar.gz --directory /usr/lib/jvm/
+    echo "JAVA_HOME=/usr/lib/jvm/jdk-21" | sudo tee -a /etc/environment
+    source /etc/environment
+  displayName: 'Install JDK 21'
+
+- task: Gradle@2
+  inputs:
+    workingDirectory: ''
+    gradleWrapperFile: 'gradlew'
+    gradleOptions: '-Xmx3072m'
+    javaHomeOption: 'JDKVersion'
+    jdkVersionOption: 'default'
+    jdkArchitectureOption: 'x64'
+    publishJUnitResults: false
+    tasks: 'jar'
+
+- task: AzureRmWebAppDeployment@4
+  inputs:
+    ConnectionType: 'AzureRM'
+    azureSubscription: '0b4068b0-ee9d-4918-a095-7ee760fbc0a6'
+    appType: 'webAppLinux'
+    WebAppName: 'RatingBotDemo'
+    packageForLinux: '**/*.jar'
+    RuntimeStack: 'JAVA|21'
+    StartupCommand: 'java -jar RatingBotDemo-0.0.1-SNAPSHOT-plain.jar' 
