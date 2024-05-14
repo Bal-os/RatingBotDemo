@@ -12,10 +12,10 @@ public interface PostHandler extends UpdateHandler {
     }
 
     @Override
-    default void handleUpdate(Update update) {
-        handlePost(update.getChannelPost());
+    default void handleUpdate(Update update, Long traceId) {
+        handlePost(update.getChannelPost(), traceId);
     }
 
-    @Loggable(message = "Telegram handler: handle new post")
-    void handlePost(Message message);
+    @Loggable(message = "Telegram handler: handle new post, traceId: {2}")
+    void handlePost(Message message, Long traceId);
 }

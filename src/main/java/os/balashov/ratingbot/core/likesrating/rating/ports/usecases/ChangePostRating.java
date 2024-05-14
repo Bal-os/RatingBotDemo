@@ -1,8 +1,8 @@
 package os.balashov.ratingbot.core.likesrating.rating.ports.usecases;
 
 import os.balashov.ratingbot.core.common.application.logging.Loggable;
-import os.balashov.ratingbot.core.likesrating.votes.ports.entities.Marks;
 import os.balashov.ratingbot.core.likesrating.rating.ports.dtos.PostRating;
+import os.balashov.ratingbot.core.likesrating.votes.ports.entities.Marks;
 
 public interface ChangePostRating {
     @Loggable(message = "Use case: Try to swap post rating in-memory")

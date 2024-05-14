@@ -2,8 +2,8 @@ package os.balashov.ratingbot.core.likesrating.calculate.strategies;
 
 import os.balashov.ratingbot.core.likesrating.calculate.calculators.inclinations.ports.InclinationCalculator;
 import os.balashov.ratingbot.core.likesrating.calculate.calculators.ratings.ports.InclinedRatingCalculator;
-import os.balashov.ratingbot.core.likesrating.calculate.ports.entity.RatingParameters;
 import os.balashov.ratingbot.core.likesrating.calculate.ports.RatingStrategy;
+import os.balashov.ratingbot.core.likesrating.calculate.ports.entity.RatingParameters;
 
 public final class InclinedParameterizedRatingStrategy implements RatingStrategy {
     private final RatingParameters parameters;

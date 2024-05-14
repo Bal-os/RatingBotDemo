@@ -12,10 +12,10 @@ public interface CallbackHandler extends UpdateHandler {
     }
 
     @Override
-    default void handleUpdate(Update update) {
-        handleCallback(update.getCallbackQuery());
+    default void handleUpdate(Update update, Long traceId) {
+        handleCallback(update.getCallbackQuery(), traceId);
     }
 
-    @Loggable(message = "Telegram handler: handle new callback")
-    void handleCallback(CallbackQuery callbackQuery);
+    @Loggable(message = "Telegram handler: handle new callback, traceId: {2}")
+    void handleCallback(CallbackQuery callbackQuery, Long traceId);
 }

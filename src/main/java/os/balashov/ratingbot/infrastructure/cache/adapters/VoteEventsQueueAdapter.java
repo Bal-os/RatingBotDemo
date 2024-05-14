@@ -10,6 +10,7 @@ import os.balashov.ratingbot.infrastructure.cache.services.GetVoteEventsQueue;
 
 import java.util.concurrent.ConcurrentMap;
 import java.util.function.BiFunction;
+
 @Service
 @AllArgsConstructor
 public class VoteEventsQueueAdapter implements VoteEventsQueueService {
@@ -26,7 +27,7 @@ public class VoteEventsQueueAdapter implements VoteEventsQueueService {
     }
 
     @CacheEvict(value = "voteEventsQueue")
-    public ConcurrentMap<Long, SaveVoteEvent>  removeVoteEventsQueue(int messageId, long chatId) {
+    public ConcurrentMap<Long, SaveVoteEvent> removeVoteEventsQueue(int messageId, long chatId) {
         return provider.getVoteEventsQueue(messageId, chatId);
     }
 }

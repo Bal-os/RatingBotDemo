@@ -3,17 +3,13 @@ package os.balashov.ratingbot.core.likesrating.process;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 import os.balashov.ratingbot.core.common.application.logging.Loggable;
-import os.balashov.ratingbot.core.likesrating.rating.ports.usecases.ChangePostRating;
-import os.balashov.ratingbot.core.likesrating.rating.ports.usecases.FindPostRating;
-import os.balashov.ratingbot.core.likesrating.rating.ports.usecases.SavePostRating;
-import os.balashov.ratingbot.core.likesrating.votes.ports.usecases.SaveUserVote;
-import os.balashov.ratingbot.core.likesrating.rating.ports.usecases.CalculateRating;
 import os.balashov.ratingbot.core.common.ports.ChatMemberCounter;
-import os.balashov.ratingbot.core.likesrating.votes.ports.usecases.CheckUserVote;
-import os.balashov.ratingbot.core.likesrating.rating.ports.usecases.CreatePostRating;
 import os.balashov.ratingbot.core.likesrating.process.ports.ProcessVoteAndUpdate;
-import os.balashov.ratingbot.core.likesrating.votes.ports.entities.Marks;
 import os.balashov.ratingbot.core.likesrating.rating.ports.dtos.PostRating;
+import os.balashov.ratingbot.core.likesrating.rating.ports.usecases.*;
+import os.balashov.ratingbot.core.likesrating.votes.ports.entities.Marks;
+import os.balashov.ratingbot.core.likesrating.votes.ports.usecases.CheckUserVote;
+import os.balashov.ratingbot.core.likesrating.votes.ports.usecases.SaveUserVote;
 
 import java.util.Optional;
 

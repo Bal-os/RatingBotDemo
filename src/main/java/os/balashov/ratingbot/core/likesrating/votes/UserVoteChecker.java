@@ -2,9 +2,9 @@ package os.balashov.ratingbot.core.likesrating.votes;
 
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
+import os.balashov.ratingbot.core.likesrating.votes.ports.entities.Marks;
 import os.balashov.ratingbot.core.likesrating.votes.ports.repositories.GetVoteRepository;
 import os.balashov.ratingbot.core.likesrating.votes.ports.usecases.CheckUserVote;
-import os.balashov.ratingbot.core.likesrating.votes.ports.entities.Marks;
 
 @Service
 @AllArgsConstructor

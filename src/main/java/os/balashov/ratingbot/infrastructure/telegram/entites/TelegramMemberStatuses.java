@@ -8,8 +8,7 @@ public enum TelegramMemberStatuses {
     MEMBER,
     LEFT,
     KICKED,
-    RESTRICTED,
-    UNKNOWN;
+    RESTRICTED;
 
     private static final List<TelegramMemberStatuses> adminStatuses = List.of(CREATOR, ADMINISTRATOR);
     private static final List<TelegramMemberStatuses> notMemberStatuses = List.of(LEFT, KICKED, RESTRICTED);

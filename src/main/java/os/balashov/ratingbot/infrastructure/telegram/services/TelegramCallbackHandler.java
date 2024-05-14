@@ -5,12 +5,12 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.CallbackQuery;
 import org.telegram.telegrambots.meta.api.objects.message.Message;
-import os.balashov.ratingbot.core.likesrating.votes.ports.usecases.CheckUserVote;
 import os.balashov.ratingbot.core.likesrating.process.ports.ProcessVoteAndUpdate;
 import os.balashov.ratingbot.core.likesrating.votes.ports.entities.Marks;
+import os.balashov.ratingbot.core.likesrating.votes.ports.usecases.CheckUserVote;
 import os.balashov.ratingbot.core.postmenegment.ports.usecases.UpdatePost;
-import os.balashov.ratingbot.infrastructure.telegram.usecases.BotExecutor;
 import os.balashov.ratingbot.infrastructure.telegram.hendlers.CallbackHandler;
+import os.balashov.ratingbot.infrastructure.telegram.usecases.BotExecutor;
 import os.balashov.ratingbot.infrastructure.telegram.usecases.CheckChatMember;
 import os.balashov.ratingbot.infrastructure.telegram.usecases.TextEditor;
 
@@ -26,7 +26,7 @@ public class TelegramCallbackHandler implements CallbackHandler {
     private final TextEditor textEditor;
 
     @Override
-    public void handleCallback(CallbackQuery callbackQuery) {
+    public void handleCallback(CallbackQuery callbackQuery, Long traceId) {
         long chatId = callbackQuery.getMessage().getChatId();
         long userId = callbackQuery.getFrom().getId();
         int messageId = callbackQuery.getMessage().getMessageId();

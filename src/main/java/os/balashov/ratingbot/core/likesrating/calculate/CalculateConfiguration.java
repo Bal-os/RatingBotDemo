@@ -3,14 +3,14 @@ package os.balashov.ratingbot.core.likesrating.calculate;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import os.balashov.ratingbot.core.likesrating.calculate.adapters.CalculationAdapter;
 import os.balashov.ratingbot.core.likesrating.calculate.calculators.inclinations.ExponentialInclinationCalculator;
 import os.balashov.ratingbot.core.likesrating.calculate.calculators.inclinations.ports.InclinationCalculator;
-import os.balashov.ratingbot.core.likesrating.calculate.calculators.ratings.ports.InclinedRatingCalculator;
 import os.balashov.ratingbot.core.likesrating.calculate.calculators.ratings.TangentsInclinedRatingCalculator;
+import os.balashov.ratingbot.core.likesrating.calculate.calculators.ratings.ports.InclinedRatingCalculator;
 import os.balashov.ratingbot.core.likesrating.calculate.factories.RatingStrategyFactoryImpl;
 import os.balashov.ratingbot.core.likesrating.calculate.ports.RatingStrategy;
 import os.balashov.ratingbot.core.likesrating.calculate.ports.entity.RatingParameters;
-import os.balashov.ratingbot.core.likesrating.calculate.adapters.CalculationAdapter;
 
 @Configuration
 public class CalculateConfiguration {

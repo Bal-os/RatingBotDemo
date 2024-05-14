@@ -1,4 +1,4 @@
-package os.balashov.ratingbot.infrastructure.sql;
+package os.balashov.ratingbot.integration;
 
 import jakarta.persistence.EntityManager;
 import jakarta.persistence.PersistenceContext;
@@ -7,6 +7,7 @@ import jakarta.transaction.Transactional;
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
+import org.springframework.test.context.ActiveProfiles;
 import os.balashov.ratingbot.infrastructure.sql.common.entities.RatingEntity;
 import os.balashov.ratingbot.utils.TestDataGenerator;
 
@@ -16,7 +17,7 @@ import java.util.concurrent.Executors;
 import java.util.concurrent.TimeUnit;
 
 @SpringBootTest
-//@ActiveProfiles({"dev", "qa"})
+@ActiveProfiles({"local", "dev"})
 public class DatabaseLoadTest {
     private static final List<String> queries = List.of(
             "SELECT u.userId, COUNT(c) FROM UserEntity u JOIN u.chat c GROUP BY u.userId",
@@ -44,8 +45,7 @@ public class DatabaseLoadTest {
         testDataGenerator.generateTestData(testAmount);
 
         ExecutorService executorService = Executors.newVirtualThreadPerTaskExecutor();
-        RatingEntity ratingEntity = new RatingEntity();
-        for (int i = 0; i < testAmount ; i++) {
+        for (int i = 0; i < testAmount; i++) {
             executorService.submit(() -> {
                 for (String query : queries) {
                     Query q = entityManager.createQuery(query);

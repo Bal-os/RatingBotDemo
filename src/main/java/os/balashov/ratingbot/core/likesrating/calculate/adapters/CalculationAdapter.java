@@ -1,7 +1,7 @@
 package os.balashov.ratingbot.core.likesrating.calculate.adapters;
 
-import os.balashov.ratingbot.core.likesrating.rating.ports.usecases.CalculateRating;
 import os.balashov.ratingbot.core.likesrating.calculate.ports.RatingStrategy;
+import os.balashov.ratingbot.core.likesrating.rating.ports.usecases.CalculateRating;
 
 public class CalculationAdapter implements CalculateRating {
     private final RatingStrategy ratingStrategy;

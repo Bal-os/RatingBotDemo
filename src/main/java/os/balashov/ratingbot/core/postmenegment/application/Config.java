@@ -3,8 +3,8 @@ package os.balashov.ratingbot.core.postmenegment.application;
 import org.springframework.context.ApplicationEventPublisher;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import os.balashov.ratingbot.core.postmenegment.ports.usecases.ProcessPostCreation;
 import os.balashov.ratingbot.core.postmenegment.ports.events.SavePostEvent;
+import os.balashov.ratingbot.core.postmenegment.ports.usecases.ProcessPostCreation;
 import os.balashov.ratingbot.core.postmenegment.ports.usecases.UpdatePost;
 
 import java.util.Optional;

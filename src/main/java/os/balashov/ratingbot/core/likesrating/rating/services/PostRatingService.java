@@ -1,10 +1,10 @@
 package os.balashov.ratingbot.core.likesrating.rating.services;
 
 import org.springframework.stereotype.Service;
+import os.balashov.ratingbot.core.likesrating.rating.ports.dtos.PostRating;
 import os.balashov.ratingbot.core.likesrating.rating.ports.usecases.ChangePostRating;
 import os.balashov.ratingbot.core.likesrating.rating.ports.usecases.CreatePostRating;
 import os.balashov.ratingbot.core.likesrating.votes.ports.entities.Marks;
-import os.balashov.ratingbot.core.likesrating.rating.ports.dtos.PostRating;
 
 @Service
 public class PostRatingService implements CreatePostRating, ChangePostRating {

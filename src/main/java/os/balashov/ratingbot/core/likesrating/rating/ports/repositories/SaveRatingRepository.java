@@ -2,8 +2,8 @@ package os.balashov.ratingbot.core.likesrating.rating.ports.repositories;
 
 import jakarta.transaction.Transactional;
 import os.balashov.ratingbot.core.common.application.logging.Loggable;
-import os.balashov.ratingbot.core.likesrating.votes.ports.entities.Marks;
 import os.balashov.ratingbot.core.likesrating.rating.ports.dtos.PostRating;
+import os.balashov.ratingbot.core.likesrating.votes.ports.entities.Marks;
 
 public interface SaveRatingRepository {
     @Transactional

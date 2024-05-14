@@ -13,8 +13,8 @@ import java.util.concurrent.atomic.AtomicInteger;
 @Primary
 @Service
 public class GetVoteCachedRepository implements GetVoteRepository {
-    private final GetVoteRepository getVoteRepository;
     public final AtomicInteger requestCount;
+    private final GetVoteRepository getVoteRepository;
 
     public GetVoteCachedRepository(@Qualifier("getVoteRepository") GetVoteRepository getVoteRepository) {
         this.getVoteRepository = getVoteRepository;

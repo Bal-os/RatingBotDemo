@@ -5,8 +5,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Component;
 import org.telegram.telegrambots.meta.api.objects.message.Message;
 import os.balashov.ratingbot.core.postmenegment.ports.usecases.ProcessPostCreation;
-import os.balashov.ratingbot.infrastructure.telegram.usecases.BotExecutor;
 import os.balashov.ratingbot.infrastructure.telegram.hendlers.PostHandler;
+import os.balashov.ratingbot.infrastructure.telegram.usecases.BotExecutor;
 import os.balashov.ratingbot.infrastructure.telegram.usecases.TextEditor;
 
 @Slf4j
@@ -18,15 +18,15 @@ public class TelegramPostHandler implements PostHandler {
     private final TextEditor textEditor;
 
     @Override
-    public void handlePost(Message message) {
+    public void handlePost(Message message, Long traceId) {
         long chatId = message.getChatId();
         int messageId = message.getMessageId();
         if (!message.hasText()) {
-            log.info("Telegram handler: message is not text, skipping, from chatId: {}, messageId: {}", chatId, messageId);
+            log.info("Telegram handler: message is not text, skipping, from chatId: {}, messageId: {}, traceId: {}", chatId, messageId, traceId);
             return;
         }
         String text = message.getText();
-        log.info("Telegram handler: message {} received, from chatId: {}, messageId: {}", text, chatId, messageId);
+        log.info("Telegram handler: message {} received, from chatId: {}, messageId: {}, traceId: {}", text, chatId, messageId, traceId);
 
         String updatedText = textEditor.updateMessage(text);
         long userId = message.getSenderChat().getId();

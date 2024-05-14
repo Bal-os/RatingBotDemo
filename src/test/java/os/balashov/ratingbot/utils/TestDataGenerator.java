@@ -4,17 +4,16 @@ import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.stereotype.Component;
+import org.springframework.test.context.ActiveProfiles;
 import os.balashov.ratingbot.core.likesrating.votes.ports.entities.Marks;
 import os.balashov.ratingbot.infrastructure.sql.common.entities.*;
 import os.balashov.ratingbot.infrastructure.sql.common.repositories.*;
-import os.balashov.ratingbot.infrastructure.sql.entities.*;
-import os.balashov.ratingbot.infrastructure.sql.repositories.*;
 
 import java.time.LocalDateTime;
 import java.util.*;
 
 @Component
-//@ActiveProfiles({"dev", "qa"})
+@ActiveProfiles({"local", "dev"})
 public class TestDataGenerator {
     private final Random random = new Random();
     private final SqlChatRepository chatRepository;

@@ -12,11 +12,8 @@ import org.telegram.telegrambots.longpolling.interfaces.LongPollingUpdateConsume
 import org.telegram.telegrambots.longpolling.starter.SpringLongPollingBot;
 import org.telegram.telegrambots.longpolling.util.TelegramOkHttpClientFactory;
 import org.telegram.telegrambots.meta.generics.TelegramClient;
-import os.balashov.ratingbot.infrastructure.telegram.services.UpdateHandlersConsumer;
-import os.balashov.ratingbot.infrastructure.telegram.hendlers.UpdateHandler;
 import os.balashov.ratingbot.infrastructure.telegram.usecases.BotConfiguration;
 
-import java.util.List;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.ScheduledExecutorService;
 
@@ -35,12 +32,6 @@ public class TelegramLibraryConfiguration {
                 return updateConsumer;
             }
         };
-    }
-
-    @Bean
-    public UpdateHandlersConsumer updateHandlersConsumer(List<UpdateHandler> handlers,
-                                                         ExecutorService executorService) {
-        return new UpdateHandlersConsumer(handlers, executorService);
     }
 
     @Bean
@@ -78,6 +69,4 @@ public class TelegramLibraryConfiguration {
             }
         };
     }
-
-
 }
